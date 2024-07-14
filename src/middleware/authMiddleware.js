@@ -1,10 +1,9 @@
-// src/middleware/authMiddleware.js
 const userService = require('../services/userService');
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (!token) {
+  const token = authHeader;
+  if (token === null) {
     return res.sendStatus(401); // Unauthorized
   }
   const user = userService.verifyToken(token);

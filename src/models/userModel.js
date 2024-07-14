@@ -1,4 +1,3 @@
-// src/models/userModel.js
 const userRepository = require('../repositories/userRepository');
 
 const createUser = async (user) => {

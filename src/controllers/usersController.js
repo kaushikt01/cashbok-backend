@@ -1,4 +1,3 @@
-// src/controllers/usersController.js
 const userService = require('../services/userService');
 
 const register = async (req, res) => {

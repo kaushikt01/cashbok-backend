@@ -1,4 +1,3 @@
-// src/services/userService.js
 const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -24,8 +23,17 @@ const loginUser = async (username, password) => {
 
 const verifyToken = (token) => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!token) {
+      console.error('Token is missing');
+      return null;
+    }
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    return decodedToken;
   } catch (err) {
+    console.error('Token verification failed:', err.message);
     return null;
   }
 };
