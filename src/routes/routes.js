@@ -8,6 +8,7 @@ router.post('/register', usersController.register);
 router.post('/login', usersController.login);
 
 router.get('/dashboard', authenticateToken, dashboardController.getDashboardDetailsController);
-router.post('/expense', authenticateToken, dashboardController.postNewExpenseController);
+router.post('/debit', authenticateToken, dashboardController.postNewDebitController);
+router.post('/credit', authenticateToken, dashboardController.postNewCreditController);
 
 module.exports = router;

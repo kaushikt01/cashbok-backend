@@ -1,37 +1,28 @@
-const { getTotalSpends, getBalance, getExpenses, addExpense } = require('../repositories/transactionRepository');
+const { getTotalSpends, addExpense, getSavings, getTotalCreditAmont } = require('../repositories/transactionRepository');
 
-const getDashboardDetails = async (userId, period) => {
-  const currentDate = new Date();
-  let startDate;
+const getDashboardDetails = async (userId) => {
 
-  switch (period) {
-    case 'month':
-      startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      break;
-    case 'week':
-      startDate = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
-      break;
-    case 'today':
-      startDate = new Date(currentDate.setHours(0, 0, 0, 0));
-      break;
-    default:
-      startDate = new Date(0); // Default to total, start from epoch time
-  }
+  const totalSpends = await getTotalSpends(userId);
+  const totalCredit = await getTotalCreditAmont(userId);
+  const savings = await getSavings(userId);
 
-  const totalSpends = await getTotalSpends(userId, startDate);
-  const expenses = await getExpenses(userId);
-  const savings = await getBalance(userId);
-  const balance = balance - expenses;
+  const balance = {
+    total: totalCredit.total - totalSpends.total,
+    month: totalCredit.month - totalSpends.month,
+    week: totalCredit.week - totalSpends.week,
+    today: totalCredit.today - totalSpends.today
+  };
 
   return {
     totalSpends,
+    totalCredit,
     balance,
     savings,
   };
 };
 
-const postNewExpense = async (userId, amount, description, transaction_date) => {
-  const newExpense = await addExpense(userId, amount, description, transaction_date);
+const postNewExpense = async (userId, amount, description, transaction_date, transaction_code) => {
+  const newExpense = await addExpense(userId, amount, description, transaction_date, transaction_code);
   return newExpense;
 };
 
