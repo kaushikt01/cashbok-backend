@@ -6,6 +6,7 @@ const authenticateToken = require('../middleware/authMiddleware.js');
 
 router.post('/register', usersController.register);
 router.post('/login', usersController.login);
+router.post('/logout', usersController.logout);
 
 router.get('/dashboard', authenticateToken, dashboardController.getDashboardDetailsController);
 router.post('/debit', authenticateToken, dashboardController.postNewDebitController);
